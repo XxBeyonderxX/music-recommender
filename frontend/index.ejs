@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Recommender</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div id="toggle_wrapper">
+        <span id="topic" class="toggle clicked">Based on Topic</span>
+        <span id="lyric" class="toggle">Based on Lyrics</span>
+        <span id="feature" class="toggle">Based on Features</span>
+        <span id="text" class="toggle">Based on Text</span>
+    </div>
+    <div id="spotlight_wrapper">
+        <form id="form" method="POST" action="/">
+            <input type="text" name="text topic" id="spotlight" placeholder="Spotlight-Search" />
+        </form>
+    </div>
+    <div id="spinner"></div>
+    <% if( stop ) { %>
+        <script>
+            stopSpin();
+        </script>
+        <% } %>
+            <div id="recommend_wrapper">
+                <% for( let i=0; i < 5; i++) { %>
+                    <div class="recommend">
+                        <span class="track">
+                            <%= tracks[i] %>
+                        </span>
+                        <span class="artist">
+                            <%= artist[i] %>
+                        </span>
+                    </div>
+                    <% } %>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var spans = document.getElementsByClassName('toggle');
+                    var form = document.getElementById('form');
+                    let spot = document.getElementById("spotlight");
+                    var spinner = document.getElementById('spinner');
+                    var clicked;
+
+                    function handleClick() {
+                        for (var i = 0; i < spans.length; i++) {
+                            spans[i].classList.remove('clicked');
+                            spot.name = `text`;
+                        }
+
+                        // added a clicked class to it for styling
+                        this.classList.add('clicked');
+
+                        // id of the span clicked
+                        clicked = this.id;
+                        // console.log(clicked);
+
+                        // added the clicked span id to the 'name' of the input 
+                        spot.name = `text ${clicked}`;
+                    }
+                    for (var i = 0; i < spans.length; i++) {
+                        spans[i].addEventListener('click', handleClick);
+                    }
+                    function spin() {
+                        spinner.classList.add("spinner");
+                        // document.getElementsByClassName("track").textContent = "";
+                        // document.getElementsByClassName("artist").textContent = ""; 
+                    }
+                    function stopSpin() {
+                        spinner.classList.remove("spinner");
+                    }
+                    form.addEventListener("submit", spin);
+                });
+            </script>
+</body>
+
+</html>

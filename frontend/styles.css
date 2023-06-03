@@ -4,13 +4,14 @@
 }
 
 body {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #000000;
+    color: #fbfbfe;
 }
 
 #spotlight_wrapper {
     position: absolute;
-    top: 26%;
+    top: 23%;
     left: 0;
     right: 0;
     width: 100%;
@@ -19,27 +20,28 @@ body {
 
 #spotlight {
     display: block;
-    width: 520px;
-    height: 50px;
+    width: 720px;
+    height: 70px;
     margin: auto;
-    border-radius: 10px;
+    border-radius: 5px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     box-shadow: 0 25px 60px 10px rgba(0, 0, 0, 0.09);
     border: 1px solid rgba(33, 33, 33, 0.2);
     outline: none;
-    font-size: 1.6rem;
-    color: #000000;
-    background-color: #fdfdfd;
+    font-size: 2.1rem;
+    color: #ffffff;
+    background-color: #42414d;
     background-position: left 17px center;
     background-repeat: no-repeat;
     background-size: 3.5%;
     padding: 0 52px;
+    font-weight: 395;
 }
 
 #spotlight::placeholder {
-    color: #666666;
+    color: #c6c2c2;
 }
 
 #toggle_wrapper {
@@ -51,7 +53,7 @@ body {
 .toggle {
     font-size: 20px;
     font-weight: 450;
-    padding: 0 38px;
+    padding: 0 39px;
 }
 
 .toggle:hover {
@@ -61,15 +63,15 @@ body {
 .clicked {
     border-top-style: solid;
     border-width: medium;
-    color: #05af08;
+    color: #1ed760;
     cursor: pointer;
     padding-top: 6px;
 }
 
 #recommend_wrapper {
-    padding: 25px;
+    padding: 25px 20px;
     font-weight: 500;
-    margin: 10% auto 0;
+    margin: 15% auto 0;
     width: 750px;
     font-size: 20px;
 }
@@ -80,30 +82,76 @@ body {
 }
 
 .artist {
-    color: #666666;
+    color: #c6c2c2;
     margin-left: 1rem;
 }
 
 
+.spinner {
+    display: block;
+    position: absolute;
+    top: 36%;
+    left: 47%;
+    width: 80px;
+    height: 80px;
+}
 
-@keyframes spinner {
-    to {
-        transform: rotate(360deg);
+.spinner div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #1ed760;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.spinner div:nth-child(1) {
+    left: 8px;
+    animation: spinner1 0.6s infinite;
+}
+
+.spinner div:nth-child(2) {
+    left: 8px;
+    animation: spinner2 0.6s infinite;
+}
+
+.spinner div:nth-child(3) {
+    left: 32px;
+    animation: spinner2 0.6s infinite;
+}
+
+.spinner div:nth-child(4) {
+    left: 56px;
+    animation: spinner3 0.6s infinite;
+}
+
+@keyframes spinner1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }
 
-.spinner:before {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    width: 35px;
-    height: 35px;
-    margin-top: -10px;
-    margin-left: -10px;
-    border-radius: 50%;
-    border: 3px solid #cccccc;
-    border-top-color: #05af08;
-    animation: spinner .6s linear infinite;
+@keyframes spinner3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes spinner2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(24px, 0);
+    }
 }

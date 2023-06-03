@@ -4,6 +4,16 @@ const { spawn } = require('child_process');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 
+const SpotifyWebApi = require('spotify-web-api-node');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+
+const spotifyApi = new SpotifyWebApi({ clientId, clientSecret });
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,7 +25,7 @@ app.set('views', path.join(__dirname, '..', 'frontend'));
 
 app.get("/", (req, res) => {
     // res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'))
-    res.render("index", { artist: [], tracks: [], stop: false });
+    res.render("index", { artist: [], tracks: [], stop: false, track_id: [] });
 })
 
 app.post("/", (req, res) => {
@@ -59,7 +69,25 @@ app.post("/", (req, res) => {
             // console.log('Artist:', artist);
             // console.log('Tracks:', tracks);
             // res.send(`successful`)
-            res.render("index", { artist: artist, tracks: tracks, stop: true });
+            let tracks_id = [];
+            (async function () {
+                for (let i = 0; i < 5; i++) {
+                    try {
+                        const trackId = await getTrackId(tracks[i], artist[i]);
+                        if (trackId) {
+                            // console.log(trackId);
+                            tracks_id.push(`https://open.spotify.com/track/${trackId}`);
+                        } else {
+                            console.log('No track found with the given track name and artist name.', i);
+                            tracks_id.push('https://open.spotify.com/track/x');
+                        }
+                    } catch (error) {
+                        console.log('Error:', error);
+                    }
+                }
+                // console.log(tracks_id);
+                res.render("index", { artist: artist, tracks: tracks, stop: true, track_id: tracks_id });
+            })();
         } else {
             console.error('Child process exited with code', code);
             res.send("failed")
@@ -70,3 +98,28 @@ app.post("/", (req, res) => {
 app.listen(3000, () => {
     console.log('Server started at port:3000');
 })
+
+async function getTrackId(trackName, artistName) {
+    try {
+        // Retrieve an access token
+        const data = await spotifyApi.clientCredentialsGrant();
+        const accessToken = data.body['access_token'];
+
+        // Set the access token on the SpotifyWebApi instance
+        spotifyApi.setAccessToken(accessToken);
+
+        // Search for the track
+        const query = `track:${trackName} artist:${artistName}`;
+        const response = await spotifyApi.searchTracks(query, { limit: 1 });
+
+        // Extract the track ID from the response
+        if (response.body.tracks.items.length > 0) {
+            const trackId = response.body.tracks.items[0].id;
+            return trackId;
+        }
+        return null;
+    } catch (error) {
+        console.log('Error retrieving track ID:', error);
+        return null;
+    }
+}

@@ -77,8 +77,15 @@ body {
 }
 
 .recommend {
-    text-align: justify;
+    /* text-align: justify; */
     padding: 12px 17px;
+    display: flex;
+}
+
+.title {
+    text-align: left;
+    flex-basis: 95%;
+    display: inline-block;
 }
 
 .artist {
@@ -86,6 +93,10 @@ body {
     margin-left: 1rem;
 }
 
+.id {
+    text-align: right;
+    flex-basis: 20%;
+}
 
 .spinner {
     display: block;
@@ -154,4 +165,15 @@ body {
     100% {
         transform: translate(24px, 0);
     }
+}
+
+img{
+    width: 2rem;
+    background-color: #1ed760;
+    border-radius: 50%;
+    padding-left: 0.25%;
+}
+img:hover{
+    background-color: #fbfbfe;
+    cursor: pointer;
 }

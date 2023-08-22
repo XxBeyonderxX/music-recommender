@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.stem.porter import PorterStemmer
 
 def preprocessing():
-    df = pd.read_csv("/Users/mudittyagi/Coding/PRACTICUM/data/topic.csv")
+    df = pd.read_csv(r"data\topic.csv")
     # df = df.head(20000)
     df.drop_duplicates(subset=["track_name"], inplace=True)
     df.rename(columns={df.columns[0]: 's_no'}, inplace=True)

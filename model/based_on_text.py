@@ -16,7 +16,7 @@ def preprocessing():
 
     
     # with tf.device('/device:GPU:0'):
-        df = pd.read_csv('/Users/mudittyagi/Coding/PRACTICUM/data/lyrics.csv')
+        df = pd.read_csv(r"data\lyrics.csv")
         df.reset_index()
         model = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
         # model = hub.load("https://tfhub.dev/google/universal-sentence-encoder-lite/2")

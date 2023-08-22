@@ -32,8 +32,8 @@ from sklearn.neighbors import NearestNeighbors
 # dataframe = dataframe[dataframe['track_name'].apply(lambda x: langid.classify(str(x))[0] == 'en')]
 
 # dataframe.to_csv('/Users/mudittyagi/Coding/PRACTICUM/data/features2.csv', index=False)
-dataframe = pd.read_csv("/Users/mudittyagi/Coding/PRACTICUM/data/features2.csv")
 
+dataframe = pd.read_csv(r"data\features2.csv")
 # duplicates = dataframe['track_name'].duplicated()
 # print(duplicates.sum())
 
